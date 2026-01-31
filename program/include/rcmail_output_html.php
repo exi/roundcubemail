@@ -2366,6 +2366,17 @@ EOF;
             'buttons' => []
         ];
 
+        if ($this->config->get('login_allow_keep_me_logged_in')) {
+            $input_remember = new html_checkbox(['name' => '_remember', 'id' => 'rcmloginremember', 'value' => 1, 'class' => 'form-check-input']);
+            $form_content['buttons']['remember'] = [
+                'outterclass' => 'form-group',
+                'content' => html::label(
+                    ['for' => 'rcmloginremember', 'class' => 'form-check-label'],
+                    $input_remember->show() . ' ' . html::quote($this->app->gettext('keepmeloggedin'))
+                )
+            ];
+        }
+
         if (is_array($default_host) && count($default_host) > 1) {
             $input_host = new html_select(['name' => '_host', 'id' => 'rcmloginhost', 'class' => 'custom-select']);
 

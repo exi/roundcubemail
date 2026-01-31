@@ -676,6 +676,14 @@ abstract class rcube_session
      */
     public function check_auth()
     {
+        // Adjust lifetime if remember me is enabled
+        if (!empty($_SESSION['remember_me'])) {
+            $lifetime = $this->config->get('session_lifetime_remember', 0) * 60;
+            if ($lifetime > 0) {
+                $this->set_lifetime($lifetime);
+            }
+        }
+
         $this->cookie = isset($_COOKIE[$this->cookiename]) ? $_COOKIE[$this->cookiename] : null;
 
         $result = $this->ip_check ? rcube_utils::remote_addr() == $this->ip : true;
@@ -713,8 +721,20 @@ abstract class rcube_session
      */
     public function set_auth_cookie()
     {
+        $exp = 0;
+
+        // Adjust lifetime if remember me is enabled (must be done before _mkcookie
+        // so the timeslot matches what check_auth() will calculate)
+        if (!empty($_SESSION['remember_me'])) {
+            $lifetime = $this->config->get('session_lifetime_remember', 0) * 60;
+            if ($lifetime > 0) {
+                $this->set_lifetime($lifetime);
+                $exp = time() + $lifetime;
+            }
+        }
+
         $this->cookie = $this->_mkcookie($this->now);
-        rcube_utils::setcookie($this->cookiename, $this->cookie, 0);
+        rcube_utils::setcookie($this->cookiename, $this->cookie, $exp);
         $_COOKIE[$this->cookiename] = $this->cookie;
     }
 

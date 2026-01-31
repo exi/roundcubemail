@@ -642,6 +642,12 @@ $config['trusted_host_patterns'] = [];
 // check client IP in session authorization
 $config['ip_check'] = false;
 
+// Allow "Keep me logged in" option in login form
+$config['login_allow_keep_me_logged_in'] = false;
+
+// Session lifetime in minutes for "Keep me logged in" sessions (default: 30 days)
+$config['session_lifetime_remember'] = 43200;
+
 // X-Frame-Options HTTP header value sent to prevent from Clickjacking.
 // Possible values: sameorigin|deny|allow-from <uri>.
 // Set to false in order to disable sending the header.

@@ -843,6 +843,11 @@ class rcmail extends rcube
             $_SESSION['password']     = $this->encrypt($password);
             $_SESSION['login_time']   = time();
 
+            // check if we should remember the user
+            if ($this->config->get('login_allow_keep_me_logged_in') && rcube_utils::get_input_value('_remember', rcube_utils::INPUT_POST)) {
+                $_SESSION['remember_me'] = true;
+            }
+
             $timezone = rcube_utils::get_input_string('_timezone', rcube_utils::INPUT_GPC);
             if ($timezone && $timezone != '_default_') {
                 $_SESSION['timezone'] = $timezone;

@@ -472,7 +472,11 @@ class rcube
         }
         // set session garbage collecting time according to session_lifetime
         if ($lifetime) {
-            ini_set('session.gc_maxlifetime', $lifetime * 2);
+            $gc_lifetime = $lifetime * 2;
+            if ($this->config->get('login_allow_keep_me_logged_in')) {
+                $gc_lifetime = max($gc_lifetime, $this->config->get('session_lifetime_remember', 0) * 60);
+            }
+            ini_set('session.gc_maxlifetime', $gc_lifetime);
         }
 
         // set session cookie lifetime so it never expires (#5961)

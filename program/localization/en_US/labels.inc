@@ -20,6 +20,7 @@ $labels = [];
 $labels['welcome'] = 'Welcome to $product';
 $labels['username'] = 'Username';
 $labels['password'] = 'Password';
+$labels['keepmeloggedin'] = 'Keep me logged in';
 $labels['server'] = 'Server';
 $labels['login'] = 'Login';
 $labels['oauthlogin'] = 'Login with $provider';
